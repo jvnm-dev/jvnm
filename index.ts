@@ -1,18 +1,19 @@
 import { createApp } from './core/app';
+import { initUrlShortenerPlugIn } from './url-shortener';
 
 const app = createApp();
 
+app.router.get('/public/*', async (request) => {
+    const url = new URL(request.url);
+    const path = url.pathname.substring(1);
+    return new Response(Bun.file(path));
+});
+
 app.router.get('/', async () => {
-    return new Response('Hello world!');
+    return new Response(Bun.file("public/me/index.html"));
 });
 
-app.router.get('/dog', async () => {
-    return new Response('Woof!');
-});
-
-app.router.get('/cat', async () => {
-    return new Response('Meow!');
-});
+initUrlShortenerPlugIn(app);
 
 const server = app.listen(8080);
 

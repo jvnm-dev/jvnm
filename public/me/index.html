@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introducing Jason Van Malder</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        height: fit-content;
+        width: fit-content;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #fff;
+      }
+
+      p {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #f5f5f5;
+      }
+
+      .socials {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .socials a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .socials a i {
+        transition: all 0.2s ease-in-out;
+      }
+
+      .socials a:hover i {
+        transform: scale(1.25);
+      }
+
+      .twitter {
+        background-color: #1da1f2 !important;
+      }
+
+      .instagram {
+        background: linear-gradient(
+          135deg,
+          #fdf497 0%,
+          #fdf497 0%,
+          #fd5949 25%,
+          #d6249f 50%,
+          #285aeb 100%
+        );
+      }
+
+      .github {
+        background-color: #333 !important;
+      }
+
+      .volume {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1rem;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .volume.blink {
+        animation: blink 0.5s infinite;
+      }
+
+      .info {
+        position: absolute;
+        top: 0;
+        right: 66px;
+        margin: 1rem;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .info:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .tooltip {
+        position: absolute;
+        top: 0;
+        right: 66px;
+        border-radius: 10px;
+        background-color: #333;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        padding: 0.8rem;
+        transition: all 0.3s ease-in-out;
+        width: 340px;
+      }
+
+      .tooltip ul {
+        margin-left: 32px;
+        margin-top: 10px;
+      }
+
+      .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 16px;
+        right: -18px;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-left-color: #333;
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+          background: white;
+          color: black;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .extia {
+        background: linear-gradient(
+          135deg,
+          rgb(252, 136, 84) 0%,
+          rgb(202, 100, 52) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+
+      .haulogy {
+        background: linear-gradient(
+          135deg,
+          #21c8bf 0%,
+          #a055b7 75%,
+          #fcc52d 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+
+      /** Media queries **/
+      @media screen and (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        p {
+          font-size: 1.2rem;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+
+      @media screen and (max-width: 320px) {
+        h1 {
+          font-size: 1rem;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+    <link
+      rel="icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAACYUlEQVR4nO2aPWsVQRSGH0cxGKKSJpXYmtQRg6Cg4kdlOhs1RQLaBP9BbLVQULQwoEis/AuKQfwNYhFNoWAjFmrqJEYGzsqy3J2d2Tu7s5c9D0yV3TP7vtmZlzl7QVEURVEURVEURVFSMwe8BN4A94BJesQ1YBvYy43vwBQ9YBz4URCfjWf0gJsl4u34SA9Ydxjwno4zAywB88BEjfuPA7sOA1YK1x+WuRaBaRJigIeFh/8GzAbWWXGI3xWDMmZljvzfH8iztIoB1koe+gtw0LPOPmDTYYBdGhljjmvX2jTBOMRn45RnrbMVdezmmHG64trXwH46IH4POOdZ74WjxpbEY8YFj3kbfROMp/hfslFVMS4iy+pYc/IcBX6nMsF4iv8LXI+Q/XacGXDPDZmjVRNMgPg7kbJ/UzbIQdzyNMHuCQe6Kv4YsBOQ/UlMMA2Jt9wNyP5kJqx6il8OrBuS/VUse5pgtQRxpSHxyObmm/0xTbgUUvRpA699nez3xWc5PA4p+KQhAw4Bfxx1n1OP2x4GPAopeLmhJVAn+2MtgYtd2ATXa2Z/65tgEzE4bPbXee2HPiSZiCbEyP5Wxcc2YcNx7zs6Kr6OCfbA0lT2JzkMhZpgj6xHiJ/9SY/DoSacH+LcX0byhkiICSf/Xw0LkbJ/rs01P4wJnwtN0VjZPyYN12T/+SJGWtL5tvjXQls8tOdfRWfa4nmm5SPF1QEfRkJ6/r5MyFx2zhN0nA+Rsn9k+RQh+0ea1RLxP2ue+0eOKfmRQ178jvwYojdMAveBt8Ar+cSlKIqiKIqiKIqiKKTjH7saqVQFCLaDAAAAAElFTkSuQmCC"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+      <h1>Hi, I'm Jason Van Malder</h1>
+      <p>
+        I am a Software Engineer Consultant from
+        <a href="https://www.extia-group.com/" target="_blank">
+          <span class="extia">Extia</span></a
+        >, currently working at
+        <a href="https://haulogy.net/" target="_blank">
+          <span class="haulogy">Haulogy</span></a
+        >.
+      </p>
+      <div class="socials">
+        <a href="https://twitter.com/jvnm_dev" target="_blank" class="twitter"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a
+          href="https://www.instagram.com/jvnm_dev/"
+          target="_blank"
+          class="instagram"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="https://github.com/jvnm-dev" target="_blank" class="github"
+          ><i class="fab fa-github"></i
+        ></a>
+      </div>
+    </div>
+
+    <div class="volume">
+      <i class="fas fa-volume-mute"></i>
+    </div>
+
+    <div class="info">
+      <i class="fas fa-info-circle"></i>
+
+      <div class="tooltip">
+        Use your mouse to control the particles:
+        <ul>
+          <li>Left click to rotate</li>
+          <li>Right click to move</li>
+          <li>Scroll to zoom</li>
+        </ul>
+      </div>
+    </div>
+
+    <script
+      async
+      src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@latest"></script>
+    <script src="public/me/orbitControls.js"></script>
+    <script>
+      const createParticles = (size, count = 100000) => {
+        const particles = new THREE.BufferGeometry();
+        const particleCount = 100000;
+
+        const texture = new THREE.TextureLoader().load(
+          "/public/me/texture.png"
+        );
+
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i] = (Math.random() - 0.5) * 800;
+          positions[i + 1] = (Math.random() - 0.5) * 800;
+          positions[i + 2] = (Math.random() - 0.5) * 1000;
+
+          const color = new THREE.Color();
+
+          const colorsArray = [
+            "rgb(252, 136, 84)",
+            "#21c8bf",
+            "#a055b7",
+            "#fcc52d",
+          ];
+
+          color.set(
+            colorsArray[Math.floor(Math.random() * colorsArray.length)]
+          );
+
+          // set color lightness to 0.5
+          color.offsetHSL(0, 0, Math.random() * 1.2);
+
+          colors[i] = color.r;
+          colors[i + 1] = color.g;
+          colors[i + 2] = color.b;
+        }
+
+        particles.setAttribute(
+          "position",
+          new THREE.BufferAttribute(positions, 3)
+        );
+        particles.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+        const randomSize = (size ?? 1) / 2 + Math.random() * (size ?? 1);
+
+        const particleMaterial = new THREE.PointsMaterial({
+          size: randomSize,
+          vertexColors: true,
+          map: texture,
+          transparent: true,
+          alphaMap: texture,
+          alphaTest: 0.0025,
+        });
+
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+
+        return [particleSystem, particleCount];
+      };
+
+      const animateParticles = (
+        particleSystem,
+        particleCount,
+        rotationSpeed = 0.025
+      ) => {
+        particleSystem.rotation.y = time * rotationSpeed;
+        particleSystem.rotation.x = time * rotationSpeed;
+
+        const positions = particleSystem.geometry.attributes.position.array;
+
+        for (let i = 0; i < particleCount; i++) {
+          positions[i * 3 + 1] += Math.sin(time + i) * rotationSpeed;
+        }
+
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+      };
+
+      const canvas = document.querySelector("#canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color("#000");
+
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        canvas.width / canvas.height,
+        0.1,
+        1000
+      );
+      camera.position.z = 5;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+      });
+      renderer.setClearColor("#d3d3d3");
+      renderer.setSize(canvas.width, canvas.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Create the particle system
+      const [particleSystem, particleCount] = createParticles();
+      const [smallParticleSystem, smallParticleCount] = createParticles(
+        0.75,
+        50000
+      );
+
+      scene.add(particleSystem);
+      scene.add(smallParticleSystem);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+
+      controls.rotateSpeed = 0.1;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxDistance = 1000;
+
+      camera.position.set(0, 20, 1000);
+      controls.update();
+
+      let time = 0;
+
+      function animate() {
+        controls.update();
+        time += 0.01;
+
+        animateParticles(particleSystem, particleCount);
+        animateParticles(smallParticleSystem, smallParticleCount, 0.01);
+
+        requestAnimationFrame(() => animate());
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      gsap.to(camera.position, { z: 100, duration: 18 });
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        camera.aspect = canvas.width / canvas.height;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(canvas.width, canvas.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      });
+
+      const listener = new THREE.AudioListener();
+      camera.add(listener);
+
+      const sound = new THREE.Audio(listener);
+
+      const audioLoader = new THREE.AudioLoader();
+      audioLoader.load("public/me/background.ogg", function (buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(0.5);
+
+        const playButton = document.querySelector(".volume");
+        playButton.addEventListener("click", () => {
+          if (sound.isPlaying) {
+            sound.pause();
+            playButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+          } else {
+            sound.play();
+            playButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+          }
+        });
+      });
+
+      const playButton = document.querySelector(".volume");
+      playButton.classList.add("blink");
+      setTimeout(() => {
+        playButton.classList.remove("blink");
+      }, 1000);
+    </script>
+  </body>
+</html>

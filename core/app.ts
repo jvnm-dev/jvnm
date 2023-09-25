@@ -1,4 +1,9 @@
-import { createRouter,  } from "./router";
+import { Router, createRouter,  } from "./router";
+
+export type App = {
+    router: Router,
+    listen: (port: number) => void,
+}
 
 export const createApp = () => {
     const router = createRouter();

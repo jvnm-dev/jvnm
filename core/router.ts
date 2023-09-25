@@ -44,6 +44,15 @@ export const createRouter = (): Router => {
             requestedPathname = requestedPathname.slice(0, -1);
         }
 
+        const wildcardRoutes = routes.filter(route => route.path.endsWith('*'));
+        
+        for (const route of wildcardRoutes) {
+            const routePathname = route.path.slice(0, -1);
+            if (requestedPathname.startsWith(routePathname)) {
+                return route;
+            }
+        }
+
         return routes.find(route => route.method === request.method && route.path === requestedPathname);
     }
 

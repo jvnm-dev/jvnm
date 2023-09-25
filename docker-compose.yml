@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  jvnm:
+    build: .
+    ports:
+      - 8080:8080

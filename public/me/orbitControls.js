@@ -147,7 +147,7 @@ class OrbitControls extends EventDispatcher {
       // so camera.up is the orbit axis
       const quat = new Quaternion().setFromUnitVectors(
         object.up,
-        new Vector3(0, 1, 0)
+        new Vector3(0, 1, 0),
       );
       const quatInverse = quat.clone().invert();
 
@@ -192,10 +192,7 @@ class OrbitControls extends EventDispatcher {
           else if (max > Math.PI) max -= twoPI;
 
           if (min <= max) {
-            spherical.theta = Math.max(
-              min,
-              Math.min(max, spherical.theta)
-            );
+            spherical.theta = Math.max(min, Math.min(max, spherical.theta));
           } else {
             spherical.theta =
               spherical.theta > (min + max) / 2
@@ -207,7 +204,7 @@ class OrbitControls extends EventDispatcher {
         // restrict phi to be between desired limits
         spherical.phi = Math.max(
           scope.minPolarAngle,
-          Math.min(scope.maxPolarAngle, spherical.phi)
+          Math.min(scope.maxPolarAngle, spherical.phi),
         );
 
         spherical.makeSafe();
@@ -217,7 +214,7 @@ class OrbitControls extends EventDispatcher {
         // restrict radius to be between desired limits
         spherical.radius = Math.max(
           scope.minDistance,
-          Math.min(scope.maxDistance, spherical.radius)
+          Math.min(scope.maxDistance, spherical.radius),
         );
 
         // move target to panned location
@@ -283,10 +280,7 @@ class OrbitControls extends EventDispatcher {
       scope.domElement.removeEventListener("pointerup", onPointerUp);
 
       if (scope._domElementKeyEvents !== null) {
-        scope._domElementKeyEvents.removeEventListener(
-          "keydown",
-          onKeyDown
-        );
+        scope._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
         scope._domElementKeyEvents = null;
       }
 
@@ -396,17 +390,17 @@ class OrbitControls extends EventDispatcher {
 
           // half of the fov is center to top of screen
           targetDistance *= Math.tan(
-            ((scope.object.fov / 2) * Math.PI) / 180.0
+            ((scope.object.fov / 2) * Math.PI) / 180.0,
           );
 
           // we use only clientHeight here so aspect ratio does not distort speed
           panLeft(
             (2 * deltaX * targetDistance) / element.clientHeight,
-            scope.object.matrix
+            scope.object.matrix,
           );
           panUp(
             (2 * deltaY * targetDistance) / element.clientHeight,
-            scope.object.matrix
+            scope.object.matrix,
           );
         } else if (scope.object.isOrthographicCamera) {
           // orthographic
@@ -414,18 +408,18 @@ class OrbitControls extends EventDispatcher {
             (deltaX * (scope.object.right - scope.object.left)) /
               scope.object.zoom /
               element.clientWidth,
-            scope.object.matrix
+            scope.object.matrix,
           );
           panUp(
             (deltaY * (scope.object.top - scope.object.bottom)) /
               scope.object.zoom /
               element.clientHeight,
-            scope.object.matrix
+            scope.object.matrix,
           );
         } else {
           // camera neither orthographic nor perspective
           console.warn(
-            "WARNING: OrbitControls.js encountered an unknown camera type - pan disabled."
+            "WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.",
           );
           scope.enablePan = false;
         }
@@ -438,13 +432,13 @@ class OrbitControls extends EventDispatcher {
       } else if (scope.object.isOrthographicCamera) {
         scope.object.zoom = Math.max(
           scope.minZoom,
-          Math.min(scope.maxZoom, scope.object.zoom * dollyScale)
+          Math.min(scope.maxZoom, scope.object.zoom * dollyScale),
         );
         scope.object.updateProjectionMatrix();
         zoomChanged = true;
       } else {
         console.warn(
-          "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled."
+          "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.",
         );
         scope.enableZoom = false;
       }
@@ -456,13 +450,13 @@ class OrbitControls extends EventDispatcher {
       } else if (scope.object.isOrthographicCamera) {
         scope.object.zoom = Math.max(
           scope.minZoom,
-          Math.min(scope.maxZoom, scope.object.zoom / dollyScale)
+          Math.min(scope.maxZoom, scope.object.zoom / dollyScale),
         );
         scope.object.updateProjectionMatrix();
         zoomChanged = true;
       } else {
         console.warn(
-          "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled."
+          "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.",
         );
         scope.enableZoom = false;
       }
@@ -521,9 +515,7 @@ class OrbitControls extends EventDispatcher {
     function handleMouseMovePan(event) {
       panEnd.set(event.clientX, event.clientY);
 
-      panDelta
-        .subVectors(panEnd, panStart)
-        .multiplyScalar(scope.panSpeed);
+      panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
 
       pan(panDelta.x, panDelta.y);
 
@@ -549,8 +541,7 @@ class OrbitControls extends EventDispatcher {
         case scope.keys.UP:
           if (event.ctrlKey || event.metaKey || event.shiftKey) {
             rotateUp(
-              (2 * Math.PI * scope.rotateSpeed) /
-                scope.domElement.clientHeight
+              (2 * Math.PI * scope.rotateSpeed) / scope.domElement.clientHeight,
             );
           } else {
             pan(0, scope.keyPanSpeed);
@@ -563,7 +554,7 @@ class OrbitControls extends EventDispatcher {
           if (event.ctrlKey || event.metaKey || event.shiftKey) {
             rotateUp(
               (-2 * Math.PI * scope.rotateSpeed) /
-                scope.domElement.clientHeight
+                scope.domElement.clientHeight,
             );
           } else {
             pan(0, -scope.keyPanSpeed);
@@ -575,8 +566,7 @@ class OrbitControls extends EventDispatcher {
         case scope.keys.LEFT:
           if (event.ctrlKey || event.metaKey || event.shiftKey) {
             rotateLeft(
-              (2 * Math.PI * scope.rotateSpeed) /
-                scope.domElement.clientHeight
+              (2 * Math.PI * scope.rotateSpeed) / scope.domElement.clientHeight,
             );
           } else {
             pan(scope.keyPanSpeed, 0);
@@ -589,7 +579,7 @@ class OrbitControls extends EventDispatcher {
           if (event.ctrlKey || event.metaKey || event.shiftKey) {
             rotateLeft(
               (-2 * Math.PI * scope.rotateSpeed) /
-                scope.domElement.clientHeight
+                scope.domElement.clientHeight,
             );
           } else {
             pan(-scope.keyPanSpeed, 0);
@@ -687,9 +677,7 @@ class OrbitControls extends EventDispatcher {
         panEnd.set(x, y);
       }
 
-      panDelta
-        .subVectors(panEnd, panStart)
-        .multiplyScalar(scope.panSpeed);
+      panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
 
       pan(panDelta.x, panDelta.y);
 
@@ -706,10 +694,7 @@ class OrbitControls extends EventDispatcher {
 
       dollyEnd.set(0, distance);
 
-      dollyDelta.set(
-        0,
-        Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed)
-      );
+      dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
 
       dollyOut(dollyDelta.y);
 
@@ -769,10 +754,7 @@ class OrbitControls extends EventDispatcher {
       if (pointers.length === 0) {
         scope.domElement.releasePointerCapture(event.pointerId);
 
-        scope.domElement.removeEventListener(
-          "pointermove",
-          onPointerMove
-        );
+        scope.domElement.removeEventListener("pointermove", onPointerMove);
         scope.domElement.removeEventListener("pointerup", onPointerUp);
       }
 
@@ -945,10 +927,7 @@ class OrbitControls extends EventDispatcher {
               break;
 
             case TOUCH.DOLLY_ROTATE:
-              if (
-                scope.enableZoom === false &&
-                scope.enableRotate === false
-              )
+              if (scope.enableZoom === false && scope.enableRotate === false)
                 return;
 
               handleTouchStartDollyRotate();
@@ -995,8 +974,7 @@ class OrbitControls extends EventDispatcher {
           break;
 
         case STATE.TOUCH_DOLLY_PAN:
-          if (scope.enableZoom === false && scope.enablePan === false)
-            return;
+          if (scope.enableZoom === false && scope.enablePan === false) return;
 
           handleTouchMoveDollyPan(event);
 
@@ -1053,9 +1031,7 @@ class OrbitControls extends EventDispatcher {
 
     function getSecondPointerPosition(event) {
       const pointer =
-        event.pointerId === pointers[0].pointerId
-          ? pointers[1]
-          : pointers[0];
+        event.pointerId === pointers[0].pointerId ? pointers[1] : pointers[0];
 
       return pointerPositions[pointer.pointerId];
     }

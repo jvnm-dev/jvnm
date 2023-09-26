@@ -1,30 +1,31 @@
-import { Router, createRouter,  } from "./router";
+import { Router, createRouter } from "./router";
 
 export type App = {
-    router: Router,
-    listen: (port: number) => void,
-}
+  router: Router;
+  listen: (port: number) => void;
+};
 
 export const createApp = () => {
-    const router = createRouter();
+  const router = createRouter();
 
-    const fetch = (request: Request) => {
-        const matchingRoute = router.match(request);
-        
-        if (matchingRoute) {
-            return matchingRoute.handler(request);
-        }
+  const fetch = (request: Request) => {
+    const matchingRoute = router.match(request);
 
-        return new Response('Route not found', { status: 404 });
+    if (matchingRoute) {
+      return matchingRoute.handler(request);
     }
 
-    const listen = (port: number) => Bun.serve({
-        port,
-        fetch,
+    return new Response("Route not found", { status: 404 });
+  };
+
+  const listen = (port: number) =>
+    Bun.serve({
+      port,
+      fetch,
     });
 
-    return {
-        router,
-        listen,
-    }
-}
+  return {
+    router,
+    listen,
+  };
+};

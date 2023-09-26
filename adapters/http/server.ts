@@ -1,4 +1,4 @@
-import { createApp } from "../../core/app";
+import { createApp } from "./app";
 import { PublicController } from "./controllers/PublicController";
 import { ShortenedUrlController } from "./controllers/ShortenedUrlController";
 

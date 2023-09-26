@@ -17,9 +17,7 @@ export class Repository<T> implements IRepository<T> {
   async select(params: SelectParams<T>): Promise<T[]> {
     const { table, columns, where, values, orderBy, limit, offset } = params;
 
-    let query = `SELECT ${columns.join(
-      ",",
-    )} FROM ${table}`;
+    let query = `SELECT ${columns.join(",")} FROM ${table}`;
 
     if (where) {
       query += ` WHERE ${where}`;
@@ -51,7 +49,7 @@ export class Repository<T> implements IRepository<T> {
 
     return this.db
       .prepare<T, SQLQueryBindings[]>(query)
-      .all(...Object.values(values ?? []) as string[]);
+      .all(...(Object.values(values ?? []) as string[]));
   }
 
   async patch(params: PatchParams<T>): Promise<T[]> {
@@ -63,6 +61,6 @@ export class Repository<T> implements IRepository<T> {
 
     return this.db
       .prepare<T, SQLQueryBindings[]>(query)
-      .all(...Object.values(values ?? []) as string[]);
+      .all(...(Object.values(values ?? []) as string[]));
   }
 }

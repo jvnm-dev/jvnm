@@ -2,6 +2,8 @@ import { Repository } from "./Repository";
 import { ShortenedUrl } from "../../domain/entities/ShortenedUrl";
 import { IShortenedUrlRepository } from "../ports/repositories/ShortenedUrlRepository";
 
+const TABLE = "urls";
+
 export class ShortenedUrlRepository
   extends Repository<ShortenedUrl>
   implements IShortenedUrlRepository
@@ -17,7 +19,7 @@ export class ShortenedUrlRepository
 
   async getAllShortenedUrls() {
     const shortenedUrls = await this.select({
-      table: "urls",
+      table: TABLE,
       columns: ["longUrl", "shortUrl"],
     });
     return shortenedUrls;
@@ -25,7 +27,7 @@ export class ShortenedUrlRepository
 
   async getShortenedUrl(shortUrl: string) {
     const shortenedUrl = await this.select({
-      table: "urls",
+      table: TABLE,
       columns: ["longUrl", "shortUrl"],
       where: "shortUrl = ?",
       values: {
@@ -38,7 +40,7 @@ export class ShortenedUrlRepository
 
   async insertShortenedUrl(shortenedUrl: ShortenedUrl) {
     const newShortenedUrl = await this.insert({
-      table: "urls",
+      table: TABLE,
       values: shortenedUrl,
     });
 
